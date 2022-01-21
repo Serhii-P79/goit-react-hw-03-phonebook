@@ -1,3 +1,3 @@
 export const App = () => {
-  return <>React homework template</>;
+  return <>goit-react-hw-03-phonebook</>;
 };
