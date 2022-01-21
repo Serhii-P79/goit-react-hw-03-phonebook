@@ -2,25 +2,32 @@ import React, { Component } from 'react';
 import { nanoid } from 'nanoid';
 import { GlobalStyle } from './GLobalStyle';
 import { ContactForm, Filter, ContactList, CssApp } from 'сomponents';
+import * as LocalApi from 'utilities';
 
 export class App extends Component {
   state = {
     contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+      // { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+      // { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+      // { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+      // { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
     filter: '',
   };
 
-  // checkContacts = nameForm => {
-  //   if (this.state.contacts.some(({ name }) => name === nameForm)) {
-  //     // alert(`${this.state.name} is already in contacts`);
-  //     return true;
-  //   }
-  //   return false;
-  // };
+  componentDidMount() {
+    const contacts = LocalApi.load('contacts');
+    contacts && this.setState({ contacts });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // console.log(prevState.contacts);
+    // console.log(this.state.contacts);
+    if (prevState.contacts !== this.state.contacts) {
+      // console.log('пишем в локал');
+      LocalApi.save('contacts', this.state.contacts);
+    }
+  }
 
   formSubmitHandler = data => {
     return new Promise((resolve, reject) => {
